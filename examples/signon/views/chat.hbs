@@ -1,0 +1,39 @@
+<h1>Players chat</h1>
+
+<h1>
+    Auction
+</h1>
+
+
+<input id="text" />
+<button id="send">Send message</button>
+<br>
+<div id="chat"></div>
+
+<script>
+    let ws = new WebSocket(`ws://${document.location.hostname}:40510`);
+    const chat = document.getElementById('chat');
+
+    ws.onopen = function () {
+        // console.log('websocket is connected ...')
+        // ws.send('My text example')
+    }
+
+    ws.onmessage = function (e) {
+        chat.append(`\r\n{{user.displayName}}: ${e.data}`);
+        // console.log(e);
+    }
+
+    const button = document.getElementById('send');
+    const text = document.getElementById('text');
+
+    button.addEventListener('click', (e) => {
+        ws.send(text.value)
+    })
+</script>
+
+<style>
+    #chat {
+        white-space: pre-wrap;
+    }
+</style>
